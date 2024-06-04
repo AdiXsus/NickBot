@@ -5,7 +5,10 @@ import requests
 from keep_alive import keep_alive
 
 # Inicjalizacja bota z intents
-intents = discord.Intents.default()
+intents = discord.Intents(guilds=True,
+                          guild_messages=True,
+                          message_content=True,
+                          presences=True)
 intents.members = True  # Upewnij się, że bot ma uprawnienia do zarządzania członkami
 bot = commands.Bot(command_prefix='!', intents=intents)
 
@@ -17,6 +20,7 @@ WEBHOOK_URL = os.getenv('WEBHOOK_URL')
 
 # Emotikon do dodania
 EMOJI = "🍷 |"
+
 
 @bot.event
 async def on_ready():
@@ -35,6 +39,7 @@ async def on_ready():
         except requests.exceptions.RequestException as e:
             print(f'Błąd podczas wysyłania webhooka: {e}')
 
+
 @bot.event
 async def on_member_join(member):
     # Nowa nazwa użytkownika z emotikonem
@@ -51,58 +56,40 @@ async def on_member_join(member):
             f'Wystąpił błąd podczas zmiany nazwy użytkownika {member.name}: {e}'
         )
 
+
 @bot.event
 async def on_message(message):
-  # Automatyczne reakcje
-  keywords = ["hello", "hej", "siema", "elo", "witam", "dzien dobry"]
-  lowercased_content = message.content.lower()
+    # Automatyczne reakcje
+    keywords = ["hello", "hej", "siema", "elo", "witam", "dzien dobry"]
+    lowercased_content = message.content.lower()
 
-  if any(keyword in lowercased_content for keyword in keywords):
-    await message.add_reaction("👋🏽")
+    if any(keyword in lowercased_content for keyword in keywords):
+        await message.add_reaction("👋🏽")
 
-  if "👍" in message.content:
-    await message.add_reaction("👍🏽")
+    if "👍" in message.content:
+        await message.add_reaction("👍🏽")
 
-  
-  # Pozostała część kodu obsługująca inne komendy
-  if lowercased_content == "!ping":
-    ping = discord.utils.utcnow() - message.created_at
-    reply_message = await message.reply(
-        f'🏓 Pong! Opóźnienie bota wynosi {ping.total_seconds() * 1000} ms.')
+    # Pozostała część kodu obsługująca inne komendy
+    if lowercased_content == "!ping":
+        ping = discord.utils.utcnow() - message.created_at
+        reply_message = await message.reply(
+            f'🏓 Pong! Opóźnienie bota wynosi {ping.total_seconds() * 1000} ms.'
+        )
 
-  # Sprawdzanie czy wiadomość została wysłana przez określonego użytkownika
-  user_id_to_monitor = "000"  # ID użytkownika, którego wiadomości będą usuwane
-  if message.author.id == int(user_id_to_monitor):
-    try:
-      # Zapisanie treści wiadomości
-      original_content = message.content
+    # Sprawdzanie czy wiadomość została wysłana przez określonego użytkownika
+    user_id_to_monitor = "373730000609869835"  # ID użytkownika, którego wiadomości będą usuwane
+    if message.author.id == int(user_id_to_monitor):
+        try:
+            # Zapisanie treści wiadomości
+            original_content = message.content
 
-      # Usunięcie wiadomości użytkownika
-      await message.delete()
+            # Usunięcie wiadomości użytkownika
+            await message.delete()
 
-      # Wysłanie wiadomości od bota z oryginalną treścią
-      await message.channel.send(original_content)
-    except Exception as error:
-      print('Wystąpił błąd podczas usuwania wiadomości:', error)
-
-@bot.event
-async def on_error(event, *args, **kwargs):
-  print('Błąd:', args, kwargs)
-
-
-@bot.event
-async def on_disconnect():
-  print('Bot został rozłączony')
-
-
-@bot.event
-async def on_reconnect():
-  print('Bot próbuje ponownie połączyć się z Discord.')
-
-
-@bot.event
-async def on_invalidated():
-  print('Token bota został zinvalidowany.')
+            # Wysłanie wiadomości od bota z oryginalną treścią
+            await message.channel.send(original_content)
+        except Exception as error:
+            print('Wystąpił błąd podczas usuwania wiadomości:', error)
 
 
 keep_alive()
