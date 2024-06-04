@@ -108,4 +108,4 @@ async def on_invalidated():
 keep_alive()
 
 # Dodaj swój token bota tutaj
-bot.run(os.getenv('BOT_TOKEN'))
+bot.run(TOKEN)
