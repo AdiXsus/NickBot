@@ -63,18 +63,6 @@ async def on_message(message):
   if "👍" in message.content:
     await message.add_reaction("👍🏽")
 
-  if lowercased_content.startswith("!s"):
-    new_status = message.content[len("!s"):].strip()
-    print(f'Nowy status: {new_status}')
-
-    try:
-      await bot.change_presence(activity=discord.Activity(
-      type=discord.ActivityType.watching, name=new_status))
-      print('Zmieniono status pomyślnie')
-      await message.reply(f'Zmieniono status na: {new_status}')
-    except Exception as error:
-      print('Błąd podczas zmiany statusu:', error)
-      await message.reply(f'Wystąpił błąd podczas zmiany statusu: {error}')
   
   # Pozostała część kodu obsługująca inne komendy
   if lowercased_content == "!ping":
