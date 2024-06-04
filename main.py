@@ -71,7 +71,7 @@ async def on_message(message):
         f'🏓 Pong! Opóźnienie bota wynosi {ping.total_seconds() * 1000} ms.')
 
   # Sprawdzanie czy wiadomość została wysłana przez określonego użytkownika
-  user_id_to_monitor = "373730000609869835"  # ID użytkownika, którego wiadomości będą usuwane
+  user_id_to_monitor = "000"  # ID użytkownika, którego wiadomości będą usuwane
   if message.author.id == int(user_id_to_monitor):
     try:
       # Zapisanie treści wiadomości
