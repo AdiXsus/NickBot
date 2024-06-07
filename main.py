@@ -77,7 +77,7 @@ async def on_message(message):
         )
 
     # Sprawdzanie czy wiadomość została wysłana przez określonych użytkowników
-    user_ids_to_monitor = ["ID_UŻYTKOWNIKA", "ID_UŻYTKOWNIKA"]  # Lista ID użytkowników, których wiadomości będą usuwane
+    user_ids_to_monitor = ["373730000609869835", "ID_UŻYTKOWNIKA"]  # Lista ID użytkowników, których wiadomości będą usuwane
     if str(message.author.id) in user_ids_to_monitor:
         try:
             # Zapisanie treści wiadomości
